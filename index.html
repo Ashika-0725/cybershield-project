@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CyberShield – Cyber Security Awareness</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#f4f7fb;--card:#fff;--text:#16202e;--muted:#5b6b80;--accent:#0b7a5b;--bad:#c62828;--ok:#2e7d32;--line:#dbe3ee}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1520;--card:#15202f;--text:#e6edf6;--muted:#9bacc0;--accent:#2ee6a6;--bad:#ff6b6b;--ok:#6be08a;--line:#25344a}}
+:root[data-theme="dark"]{--bg:#0d1520;--card:#15202f;--text:#e6edf6;--muted:#9bacc0;--accent:#2ee6a6;--bad:#ff6b6b;--ok:#6be08a;--line:#25344a}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.6}
+nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--card);border-bottom:1px solid var(--line);display:flex;gap:1rem;padding:.7rem 1rem;overflow-x:auto;z-index:5}
+nav b{color:var(--accent);margin-right:auto;white-space:nowrap}
+nav a{color:var(--text);text-decoration:none;font-size:.9rem;white-space:nowrap}
+header{text-align:center;padding:3rem 1rem 2rem}
+header h1{margin:0;font-size:clamp(1.8rem,5vw,3rem)}
+header p{color:var(--muted);max-width:40rem;margin:.8rem auto 0}
+main{max-width:60rem;margin:auto;padding:0 1rem 3rem}
+section{margin:2rem 0}
+h2{border-left:4px solid var(--accent);padding-left:.6rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:1rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1rem}
+.card h3{margin:.2rem 0;color:var(--accent)}
+.card p{margin:.3rem 0;color:var(--muted);font-size:.95rem}
+input[type=text],input[type=password]{width:100%;padding:.7rem;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--text);font-size:1rem}
+.bar{height:10px;background:var(--line);border-radius:6px;overflow:hidden;margin:.7rem 0}
+#fill{height:100%;width:0;background:var(--bad);transition:width .3s,background .3s}
+ul.rules{list-style:none;padding:0;margin:.5rem 0;font-size:.92rem}
+ul.rules li::before{content:"✗ ";color:var(--bad)}
+ul.rules li.ok::before{content:"✓ ";color:var(--ok)}
+button{background:var(--accent);color:#06251b;border:0;padding:.65rem 1.1rem;border-radius:8px;font-weight:600;cursor:pointer;font-size:.95rem}
+button.alt{background:transparent;color:var(--text);border:1px solid var(--line)}
+.opts{display:flex;gap:.6rem;flex-wrap:wrap;margin:.8rem 0}
+.msg{margin:.6rem 0;font-weight:600}
+.checks label{display:block;padding:.4rem 0;cursor:pointer}
+footer{text-align:center;color:var(--muted);padding:1.5rem 1rem;font-size:.85rem}
+</style>
+</head>
+<body>
+<nav><b>🛡️ CyberShield</b><a href="#threats">Threats</a><a href="#password">Password</a><a href="#quiz">Phishing Quiz</a><a href="#tips">Checklist</a></nav>
+<header>
+<h1>Stay Safe Online</h1>
+<p>An interactive guide to common cyber threats and simple habits that protect your accounts, data and devices.</p>
+</header>
+<main>
+
+<section id="threats">
+<h2>Common Cyber Threats</h2>
+<div class="grid">
+<div class="card"><h3>Phishing</h3><p>Fake emails or messages that trick you into sharing passwords or clicking harmful links.</p></div>
+<div class="card"><h3>Malware</h3><p>Harmful software such as viruses, spyware and ransomware that damages or locks your files.</p></div>
+<div class="card"><h3>Ransomware</h3><p>Encrypts your data and demands payment. Regular offline backups are the best defence.</p></div>
+<div class="card"><h3>Social Engineering</h3><p>Manipulating people, not machines, into giving away confidential information.</p></div>
+<div class="card"><h3>Weak Passwords</h3><p>Short or reused passwords are easily guessed or cracked by automated tools.</p></div>
+<div class="card"><h3>Public Wi‑Fi Risks</h3><p>Open networks can let others snoop on traffic. Avoid sensitive logins on them.</p></div>
+</div>
+</section>
+
+<section id="password">
+<h2>Password Strength Checker</h2>
+<div class="card">
+<p>Type a password to test it. Nothing is stored or sent anywhere.</p>
+<input type="password" id="pw" placeholder="Enter a password" autocomplete="off">
+<label style="font-size:.9rem"><input type="checkbox" id="show"> Show password</label>
+<div class="bar"><div id="fill"></div></div>
+<div class="msg" id="label">Strength: –</div>
+<ul class="rules" id="rules">
+<li data-r="len">At least 12 characters</li>
+<li data-r="low">A lowercase letter</li>
+<li data-r="up">An uppercase letter</li>
+<li data-r="num">A number</li>
+<li data-r="sym">A symbol (e.g. ! @ # $)</li>
+<li data-r="common">Not a common password</li>
+</ul>
+</div>
+</section>
+
+<section id="quiz">
+<h2>Spot the Phishing</h2>
+<div class="card">
+<div id="qbox"></div>
+</div>
+</section>
+
+<section id="tips">
+<h2>Safety Checklist</h2>
+<div class="card checks" id="checks">
+<label><input type="checkbox"> Use a unique password for every account</label>
+<label><input type="checkbox"> Turn on two‑factor authentication (2FA)</label>
+<label><input type="checkbox"> Keep your OS and apps updated</label>
+<label><input type="checkbox"> Install trusted antivirus software</label>
+<label><input type="checkbox"> Back up important files regularly</label>
+<label><input type="checkbox"> Check links and sender addresses before clicking</label>
+<label><input type="checkbox"> Avoid sensitive logins on public Wi‑Fi</label>
+<div class="bar"><div id="cfill" style="height:100%;width:0;background:var(--accent);transition:width .3s"></div></div>
+<div class="msg" id="cmsg">0 of 7 habits done</div>
+</div>
+</section>
+
+</main>
+<footer>CyberShield · Educational project built with HTML, CSS &amp; JavaScript</footer>
+
+<script>
+/* ---------- Password checker ---------- */
+var common=["password","123456","12345678","qwerty","abc123","password1","111111","iloveyou","admin","letmein","welcome"];
+var pw=document.getElementById("pw"),fill=document.getElementById("fill"),label=document.getElementById("label");
+document.getElementById("show").addEventListener("change",function(){pw.type=this.checked?"text":"password";});
+pw.addEventListener("input",function(){
+  var v=pw.value;
+  var r={
+    len:v.length>=12,
+    low:/[a-z]/.test(v),
+    up:/[A-Z]/.test(v),
+    num:/\d/.test(v),
+    sym:/[^A-Za-z0-9]/.test(v),
+    common:v.length>0&&common.indexOf(v.toLowerCase())===-1
+  };
+  var score=0;
+  document.querySelectorAll("#rules li").forEach(function(li){
+    var ok=r[li.dataset.r];
+    li.classList.toggle("ok",ok);
+    if(ok)score++;
+  });
+  if(v.length>=16)score++;
+  var pct=v?Math.round(score/7*100):0;
+  var name="–",color="var(--bad)";
+  if(v){
+    if(pct<35){name="Very weak";}
+    else if(pct<60){name="Weak";color="#ef8f1a";}
+    else if(pct<85){name="Good";color="#d4b100";}
+    else{name="Strong";color="var(--ok)";}
+  }
+  fill.style.width=pct+"%";fill.style.background=color;
+  label.textContent="Strength: "+name;
+});
+
+/* ---------- Phishing quiz ---------- */
+var Q=[
+ {t:"Email from \"support@paypa1-security.com\": Your account is locked! Verify within 24 hours.",a:true,e:"Lookalike domain (paypa1), urgency and a threat are classic phishing signs."},
+ {t:"A message from your college's official portal, reached by typing the website address yourself, asks you to update your timetable.",a:false,e:"You went to the site directly, so this is the safer path."},
+ {t:"SMS: You won a free phone! Click http://bit.ly/claim-now to claim your prize.",a:true,e:"Unexpected prizes and shortened links are major red flags."},
+ {t:"Your bank never asks for your PIN by email, but this email asks you to reply with your PIN to \"confirm identity\".",a:true,e:"Genuine banks never ask for PINs or passwords by email."},
+ {t:"You requested a password reset and receive an email with a reset link a minute later.",a:false,e:"This is expected behaviour because you triggered it yourself."}
+];
+var qi=0,score=0,box=document.getElementById("qbox");
+function showQ(){
+  if(qi>=Q.length){
+    box.innerHTML='<h3>Quiz complete!</h3><p>You scored <b>'+score+' / '+Q.length+'</b>.</p><button id="again">Try again</button>';
+    document.getElementById("again").onclick=function(){qi=0;score=0;showQ();};
+    return;
+  }
+  box.innerHTML='<p style="color:var(--muted);margin:0">Question '+(qi+1)+' of '+Q.length+'</p>'+
+    '<p><b>'+Q[qi].t+'</b></p>'+
+    '<div class="opts"><button id="yes">🎣 Phishing</button><button id="no" class="alt">✅ Legitimate</button></div>'+
+    '<div class="msg" id="fb"></div>';
+  document.getElementById("yes").onclick=function(){answer(true);};
+  document.getElementById("no").onclick=function(){answer(false);};
+}
+function answer(g){
+  var right=g===Q[qi].a;
+  if(right)score++;
+  var fb=document.getElementById("fb");
+  fb.style.color=right?"var(--ok)":"var(--bad)";
+  fb.textContent=(right?"Correct! ":"Not quite. ")+Q[qi].e;
+  document.getElementById("yes").disabled=true;
+  document.getElementById("no").disabled=true;
+  var n=document.createElement("button");
+  n.textContent=qi===Q.length-1?"See result":"Next";
+  n.onclick=function(){qi++;showQ();};
+  fb.after(n);
+}
+showQ();
+
+/* ---------- Checklist ---------- */
+var boxes=document.querySelectorAll("#checks input[type=checkbox]");
+boxes.forEach(function(b){b.addEventListener("change",function(){
+  var d=document.querySelectorAll("#checks input:checked").length;
+  document.getElementById("cfill").style.width=(d/boxes.length*100)+"%";
+  document.getElementById("cmsg").textContent=d+" of "+boxes.length+" habits done"+(d===boxes.length?" 🎉 Well protected!":"");
+});});
+</script>
+</body>
+</html>
